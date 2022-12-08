@@ -6,26 +6,25 @@ import numpy as np
 data_path = 'data/'
 
 
-def get_Dataset():
+def get_Dataset(image_size, isRGB):
     train_data = []
     test_data = []
     for type_folder in os.listdir(data_path):
         if type_folder == 'Train':
-            train_data = read_images(data_path + type_folder)
+            train_data = read_images(data_path + type_folder, isRGB, image_size)
         else:
-            test_data = read_images(data_path + type_folder)
+            test_data = read_images(data_path + type_folder, isRGB, image_size)
 
     X_train, Y_train = reformat_dataset(train_data)
     X_test, Y_test = reformat_dataset(test_data)
     return X_train, Y_train, X_test, Y_test
 
 
-def read_images(images_paths):
+def read_images(images_paths, isRGB, image_size):
     images = []
     for i in os.listdir(images_paths):
-        # read images as gray images
-        image = cv2.imread(os.path.join(images_paths, i), 0)
-        image = resize_image(image, 227)
+        image = cv2.imread(os.path.join(images_paths, i), isRGB)
+        image = resize_image(image, image_size)
         image_label = create_label(i)
         images.append([np.array(image), image_label])
     return images
@@ -46,6 +45,7 @@ def create_label(image_path):
 
 
 def reformat_dataset(data):
-    X = np.array([i[0] for i in data], dtype=object)
+    X = np.array([i[0] for i in data], dtype=object).reshape(-1, 227, 227, 3)
     Y = np.array([i[1] for i in data])
+    Y = Y.reshape(len(Y), 6)
     return X, Y
