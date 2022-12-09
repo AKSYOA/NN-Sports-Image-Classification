@@ -15,8 +15,8 @@ def get_Dataset(image_size, isRGB):
         else:
             test_data = read_images(data_path + type_folder, isRGB, image_size)
 
-    X_train, Y_train = reformat_dataset(train_data)
-    X_test, Y_test = reformat_dataset(test_data)
+    X_train, Y_train = reformat_dataset(train_data, image_size, isRGB)
+    X_test, Y_test = reformat_dataset(test_data, image_size, isRGB)
     return X_train, Y_train, X_test, Y_test
 
 
@@ -44,8 +44,12 @@ def create_label(image_path):
     return label_encoded
 
 
-def reformat_dataset(data):
-    X = np.array([i[0] for i in data], dtype=object).reshape(-1, 227, 227, 3)
+def reformat_dataset(data, image_size, isRGB):
+    if isRGB == 0:
+        X = np.array([i[0] for i in data], dtype=object).reshape(-1, image_size, image_size, 1)
+    else:
+        X = np.array([i[0] for i in data], dtype=object).reshape(-1, image_size, image_size, 3)
+
     Y = np.array([i[1] for i in data])
     Y = Y.reshape(len(Y), 6)
     return X, Y
