@@ -6,7 +6,7 @@ from tflearn import input_data, conv_2d, max_pool_2d, fully_connected, dropout, 
 import testingScript
 import Data_Preparation
 
-X_train, Y_train, X_test, Y_test = Data_Preparation.get_Dataset(image_size=50, isRGB=0)
+X_train, Y_train, X_test, test_images_names = Data_Preparation.get_Dataset(image_size=50, isRGB=0)
 
 conv_input = input_data(shape=[None, 50, 50, 1], name='input')
 
@@ -41,4 +41,4 @@ else:
               snapshot_step=500, show_metric=True, run_id='sports')
     model.save('labModel.tfl')
 
-testingScript.generateTestingCSV(model)
+testingScript.generateTestingCSV(model, X_test, test_images_names)
