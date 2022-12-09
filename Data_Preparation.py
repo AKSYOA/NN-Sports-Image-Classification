@@ -17,7 +17,8 @@ def get_Dataset(image_size, isRGB):
 
     X_train, Y_train = reformat_dataset(train_data, image_size, isRGB)
     X_test, Y_test = reformat_dataset(test_data, image_size, isRGB)
-    return X_train, Y_train, X_test, Y_test
+    test_images_names = get_images_name(test_data)
+    return X_train, Y_train, X_test, test_images_names
 
 
 def read_images(images_paths, isRGB, image_size):
@@ -26,7 +27,7 @@ def read_images(images_paths, isRGB, image_size):
         image = cv2.imread(os.path.join(images_paths, i), isRGB)
         image = resize_image(image, image_size)
         image_label = create_label(i)
-        images.append([np.array(image), image_label])
+        images.append([np.array(image), image_label, i])
     return images
 
 
@@ -42,6 +43,13 @@ def create_label(image_path):
         if image_label == image_classes[i]:
             label_encoded[i] = 1
     return label_encoded
+
+
+def get_images_name(data):
+    names = []
+    for i in data:
+        names.append(i[2])
+    return names
 
 
 def reformat_dataset(data, image_size, isRGB):
