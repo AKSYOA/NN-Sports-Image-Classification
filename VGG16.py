@@ -1,5 +1,4 @@
 import tflearn
-from tflearn import local_response_normalization
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
@@ -38,9 +37,6 @@ conv13 = conv_2d(conv12, 512, 3, padding="same", activation="relu")
 
 pool5 = max_pool_2d(conv13, 2, strides=2, name='vgg16')
 
-# Flatten(name=’flatten’)
-
-
 fully_layer1 = fully_connected(pool5, 256, activation='relu')
 fully_layer2 = fully_connected(fully_layer1, 128, activation='relu', name='fc2')
 dropout2 = dropout(fully_layer2, 0.5)
@@ -55,4 +51,4 @@ model.fit({'input': X_train}, {'targets': Y_train}, n_epoch=1000,
           validation_set=({'input': X_test}, {'targets': Y_test}),
           snapshot_step=200, batch_size=64, show_metric=True, run_id='alexNet-Sports')
 
-model.save('model.tfl')
+model.save('VGG16.tfl')
