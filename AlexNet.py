@@ -36,4 +36,4 @@ model.fit({'input': X_train}, {'targets': Y_train}, n_epoch=1000,
           validation_set=({'input': X_test}, {'targets': Y_test}),
           snapshot_step=200, batch_size=64, show_metric=True, run_id='alexNet-Sports')
 
-model.save('model.tfl')
+model.save('alexNet.tfl')
