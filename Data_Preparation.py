@@ -2,6 +2,7 @@ import os
 from random import shuffle
 import cv2
 import numpy as np
+import Data_Preprocessing
 
 data_path = 'data/'
 
@@ -14,10 +15,16 @@ def get_Dataset(image_size, isRGB):
             train_data = read_images(data_path + type_folder, isRGB, image_size)
         else:
             test_data = read_images(data_path + type_folder, isRGB, image_size)
+
     shuffle(train_data)
     shuffle(test_data)
+
+    train_data = Data_Preprocessing.normalize_data(train_data)
+    test_data = Data_Preprocessing.normalize_data(test_data)
+
     X_train, Y_train = reformat_dataset(train_data, image_size, isRGB)
     X_test, Y_test = reformat_dataset(test_data, image_size, isRGB)
+
     test_images_names = get_images_name(test_data)
     return X_train, Y_train, X_test, test_images_names
 
