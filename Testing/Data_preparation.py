@@ -4,26 +4,19 @@ import cv2
 import numpy as np
 import Data_Preprocessing
 
-data_path = 'data/'
+data_path = '../data/'
 
 
 def get_Dataset(image_size, isRGB):
-    train_data = []
     test_data = []
     for type_folder in os.listdir(data_path):
-        if type_folder == 'Train':
-            train_data = read_images(data_path + type_folder, isRGB, image_size)
-        else:
+        if type_folder == 'Test':
             test_data = read_images(data_path + type_folder, isRGB, image_size)
 
-    shuffle(train_data)
-    shuffle(test_data)
-
-    X_train, Y_train = reformat_dataset(train_data, image_size, isRGB)
     X_test, Y_test = reformat_dataset(test_data, image_size, isRGB)
 
     test_images_names = get_images_name(test_data)
-    return X_train, Y_train, X_test, test_images_names
+    return X_test, test_images_names
 
 
 def read_images(images_paths, isRGB, image_size):

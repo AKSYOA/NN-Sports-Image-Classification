@@ -3,7 +3,7 @@ import os
 import tflearn
 from tflearn import input_data, conv_2d, max_pool_2d, fully_connected, dropout, regression
 
-import testingScript
+import CSV_utilities
 import Data_Preparation
 
 X_train, Y_train, X_test, test_images_names = Data_Preparation.get_Dataset(image_size=50, isRGB=0)
@@ -41,4 +41,4 @@ else:
               snapshot_step=500, show_metric=True, run_id='sports')
     model.save('labModel.tfl')
 
-testingScript.generateTestingCSV(model, X_test, test_images_names)
+CSV_utilities.generateTestingCSV(model, X_test, test_images_names)
