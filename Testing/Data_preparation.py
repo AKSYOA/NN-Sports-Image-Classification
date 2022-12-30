@@ -10,7 +10,7 @@ data_path = '../data/'
 def get_Dataset(image_size, isRGB):
     test_data = []
     for type_folder in os.listdir(data_path):
-        if type_folder == 'Test':
+        if type_folder == 'Exam':
             test_data = read_images(data_path + type_folder, isRGB, image_size)
 
     X_test, Y_test = reformat_dataset(test_data, image_size, isRGB)
